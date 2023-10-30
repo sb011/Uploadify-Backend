@@ -76,18 +76,6 @@ public class FileModel {
     }
 
     // constructor
-    public FileModel(String id, String url, String type, int size, String publicId, LocalDateTime expiresAt,
-            LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.url = url;
-        this.type = type;
-        this.size = size;
-        this.publicId = publicId;
-        this.expiresAt = expiresAt;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     public FileModel(String url, String type, int size, String publicId, LocalDateTime expiresAt) {
         this.url = url;
         this.type = type;
