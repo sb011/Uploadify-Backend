@@ -29,7 +29,7 @@ public class FileService implements IFileService {
         this.cloudinaryHelper = cloudinaryHelper;
     }
 
-    public FileResponse uploadFile(MultipartFile file) {
+    public FileResponse uploadFile(MultipartFile file, String userId) {
         if (file.isEmpty() || file.getSize() == 0 || file.getOriginalFilename() == null) {
             throw new BadRequestException("Uploaded file is empty");
         }
@@ -51,12 +51,13 @@ public class FileService implements IFileService {
         }
 
         var expiresAt = LocalDateTime.now().plusDays(1);
-        var fileEntity = new FileModel(media.getUrl(), fileExtension, media.getSize(), media.getPublicId(),
+        var fileEntity = new FileModel(media.getUrl(), fileExtension, media.getSize(), media.getPublicId(), userId,
                 expiresAt);
 
         var response = fileRepository.save(fileEntity);
         return new FileResponse(response.getId(), response.getType(),
-                response.getSize(), response.getPublicId(), null, response.getExpiresAt(), response.getCreatedAt(),
+                response.getSize(), response.getPublicId(), null, response.getUserId(), response.getExpiresAt(),
+                response.getCreatedAt(),
                 response.getUpdatedAt());
     }
 
@@ -67,6 +68,6 @@ public class FileService implements IFileService {
         }
 
         return new FileResponse(file.getId(), file.getType(), file.getSize(), file.getPublicId(), file.getUrl(),
-                file.getExpiresAt(), file.getCreatedAt(), file.getUpdatedAt());
+                file.getUserId(), file.getExpiresAt(), file.getCreatedAt(), file.getUpdatedAt());
     }
 }

@@ -8,6 +8,7 @@ public class FileResponse {
     private int size;
     private String publicId;
     private String url;
+    private String userId;
     private LocalDateTime expiresAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -31,6 +32,10 @@ public class FileResponse {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public LocalDateTime getExpiresAt() {
@@ -66,6 +71,10 @@ public class FileResponse {
         this.url = url;
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
@@ -79,13 +88,15 @@ public class FileResponse {
     }
 
     // constructor
-    public FileResponse(String id, String type, int size, String publicId, String url, LocalDateTime expiresAt,
+    public FileResponse(String id, String type, int size, String publicId, String url, String userId,
+            LocalDateTime expiresAt,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.type = type;
         this.size = size;
         this.publicId = publicId;
         this.url = url;
+        this.userId = userId;
         this.expiresAt = expiresAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -98,6 +109,7 @@ public class FileResponse {
     @Override
     public String toString() {
         return "FileResponse [createdAt=" + createdAt + ", expiresAt=" + expiresAt + ", id=" + id + ", publicId="
-                + publicId + ", size=" + size + ", type=" + type + ", updatedAt=" + updatedAt + "]";
+                + publicId + ", size=" + size + ", type=" + type + ", updatedAt=" + updatedAt + ", url=" + url
+                + ", userId=" + userId + "]";
     }
 }
