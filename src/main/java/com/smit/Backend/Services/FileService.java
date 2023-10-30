@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.smit.Backend.Enumerable.MediaTypes;
+import com.smit.Backend.Enumerable.MediaExtensionTypes;
 import com.smit.Backend.Execptions.BadRequestException;
+import com.smit.Backend.Execptions.UnauthorizedException;
 import com.smit.Backend.Helpers.CloudinaryHelper;
 import com.smit.Backend.Models.DtoModels.FileUploadDto;
 import com.smit.Backend.Models.EntityModels.FileModel;
@@ -34,7 +35,7 @@ public class FileService implements IFileService {
             throw new BadRequestException("Uploaded file is empty");
         }
         var fileExtension = file.getOriginalFilename().split("\\.")[1];
-        if (EnumUtils.isValidEnum(MediaTypes.class, fileExtension) == false) {
+        if (EnumUtils.isValidEnum(MediaExtensionTypes.class, fileExtension) == false) {
             throw new BadRequestException("File type not allowed" + fileExtension);
         }
 
@@ -61,13 +62,28 @@ public class FileService implements IFileService {
                 response.getUpdatedAt());
     }
 
-    public FileResponse getFile(String id) {
-        var file = fileRepository.findByPublicId(id).orElseThrow(() -> new BadRequestException("File not found"));
+    public FileResponse getFile(String publicId) {
+        var file = fileRepository.findByPublicId(publicId).orElseThrow(() -> new BadRequestException("File not found"));
         if (file.getExpiresAt() != null && file.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new BadRequestException("File has expired");
         }
 
         return new FileResponse(file.getId(), file.getType(), file.getSize(), file.getPublicId(), file.getUrl(),
                 file.getUserId(), file.getExpiresAt(), file.getCreatedAt(), file.getUpdatedAt());
+    }
+
+    public void deleteFile(String id, String userId) {
+        var file = fileRepository.findById(id).orElseThrow(() -> new BadRequestException("File not found"));
+        if (!file.getUserId().equals(userId)) {
+            throw new UnauthorizedException("You are not authorized to delete this file");
+        }
+
+        try {
+            cloudinaryHelper.deleteFile(file.getPublicId());
+        } catch (IOException exception) {
+            throw new BadRequestException(exception.getMessage());
+        }
+
+        fileRepository.deleteById(id);
     }
 }

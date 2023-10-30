@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.smit.Backend.Execptions.BadRequestException;
 import com.smit.Backend.Models.DtoModels.FileUploadDto;
 
 @Component
@@ -31,5 +32,14 @@ public class CloudinaryHelper {
                 (String) uploadResult.get("resource_type"), (int) uploadResult.get("bytes"),
                 (String) uploadResult.get("public_id"));
         return media;
+    }
+
+    public void deleteFile(String publicId) throws IOException {
+        Map deleteResult = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+
+        if (!"ok".equals(deleteResult.get("result"))) {
+            throw new BadRequestException("Error deleting file from cloudinary");
+            
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.smit.Backend.Enumerable;
 
-public enum MediaTypes {
+public enum MediaExtensionTypes {
     txt,
     doc,
     pdf,

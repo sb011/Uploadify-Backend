@@ -1,6 +1,7 @@
 package com.smit.Backend.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +35,16 @@ public class FileController {
         return fileService.uploadFile(file, userId);
     }
 
-    @GetMapping("/{id}")
-    public FileResponse getFile(@PathVariable String id) {
-        return fileService.getFile(id);
+    @GetMapping("/{publicId}")
+    public FileResponse getFile(@PathVariable String publicId) {
+        return fileService.getFile(publicId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteFile(@PathVariable String id, @RequestHeader("Authorization") String token) {
+        var tokenData = jwtHelper.validateToken(token.substring(7));
+        var userId = tokenData.getClaim("userId").toString();
+        userId = userId.substring(1, userId.length() - 1);
+        fileService.deleteFile(id, userId);
     }
 }
