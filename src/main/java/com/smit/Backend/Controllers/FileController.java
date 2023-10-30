@@ -1,5 +1,7 @@
 package com.smit.Backend.Controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +40,14 @@ public class FileController {
     @GetMapping("/{publicId}")
     public FileResponse getFile(@PathVariable String publicId) {
         return fileService.getFile(publicId);
+    }
+
+    @GetMapping("/")
+    public List<FileResponse> getAllFiles(@RequestHeader("Authorization") String token) {
+        var tokenData = jwtHelper.validateToken(token.substring(7));
+        var userId = tokenData.getClaim("userId").toString();
+        userId = userId.substring(1, userId.length() - 1);
+        return fileService.getAllFile(userId);
     }
 
     @DeleteMapping("/{id}")

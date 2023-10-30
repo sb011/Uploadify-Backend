@@ -53,7 +53,9 @@ public class TokenFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
-        if (path.startsWith("/api/files") && request.getMethod().equals("GET")) {
+        if (path.equals("/api/files/") && request.getMethod().equals("GET")) {
+            return false;
+        } else if (path.startsWith("/api/files") && request.getMethod().equals("GET")) {
             return true;
         }
         return path.equals("/api/authentication/login") || path.equals("/api/authentication/register");

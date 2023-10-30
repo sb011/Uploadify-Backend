@@ -2,6 +2,7 @@ package com.smit.Backend.Services;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.EnumUtils;
@@ -53,11 +54,12 @@ public class FileService implements IFileService {
 
         var expiresAt = LocalDateTime.now().plusDays(1);
         var fileEntity = new FileModel(media.getUrl(), fileExtension, media.getSize(), media.getPublicId(), userId,
-                expiresAt);
+                file.getContentType(), expiresAt);
 
         var response = fileRepository.save(fileEntity);
         return new FileResponse(response.getId(), response.getType(),
-                response.getSize(), response.getPublicId(), null, response.getUserId(), response.getExpiresAt(),
+                response.getSize(), response.getPublicId(), null, response.getUserId(), response.getMediaType(),
+                response.getExpiresAt(),
                 response.getCreatedAt(),
                 response.getUpdatedAt());
     }
@@ -69,7 +71,18 @@ public class FileService implements IFileService {
         }
 
         return new FileResponse(file.getId(), file.getType(), file.getSize(), file.getPublicId(), file.getUrl(),
-                file.getUserId(), file.getExpiresAt(), file.getCreatedAt(), file.getUpdatedAt());
+                file.getUserId(), file.getMediaType(), file.getExpiresAt(), file.getCreatedAt(), file.getUpdatedAt());
+    }
+
+    public List<FileResponse> getAllFile(String userId) {
+        List<FileResponse> files = fileRepository.findByUserId(userId).stream()
+                .map(file -> new FileResponse(file.getId(), file.getType(), file.getSize(), file.getPublicId(),
+                        file.getUrl(),
+                        file.getUserId(), file.getMediaType(), file.getExpiresAt(), file.getCreatedAt(),
+                        file.getUpdatedAt()))
+                .toList();
+
+        return files;
     }
 
     public void deleteFile(String id, String userId) {

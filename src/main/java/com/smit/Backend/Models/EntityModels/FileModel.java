@@ -12,6 +12,7 @@ public class FileModel {
     private int size;
     private String publicId;
     private String userId;
+    private String mediaType;
     private LocalDateTime expiresAt;
     @CreatedDate
     private LocalDateTime createdAt;
@@ -41,6 +42,10 @@ public class FileModel {
 
     public String getUserId() {
         return userId;
+    }
+
+    public String getMediaType() {
+        return mediaType;
     }
 
     public LocalDateTime getExpiresAt() {
@@ -80,17 +85,23 @@ public class FileModel {
         this.userId = userId;
     }
 
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
     public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
 
     // constructor
-    public FileModel(String url, String type, int size, String publicId, String userId, LocalDateTime expiresAt) {
+    public FileModel(String url, String type, int size, String publicId, String userId, String mediaType,
+            LocalDateTime expiresAt) {
         this.url = url;
         this.type = type;
         this.size = size;
         this.publicId = publicId;
         this.userId = userId;
+        this.mediaType = mediaType;
         this.expiresAt = expiresAt;
     }
 
@@ -102,6 +113,6 @@ public class FileModel {
     public String toString() {
         return "MediaModel [createdAt=" + createdAt + ", expiresAt=" + expiresAt + ", id=" + id + ", publicId="
                 + publicId + ", size=" + size + ", type=" + type + ", updatedAt=" + updatedAt + ", url=" + url
-                + ", userId=" + userId + "]";
+                + ", userId=" + userId + ", mediaType=" + mediaType + "]";
     }
 }

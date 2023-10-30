@@ -2,10 +2,15 @@ package com.smit.Backend.Models.ResponseModels;
 
 public class LoginResponseModel {
     private String access_token;
+    private String name;
 
     // Getters
     public String getAccess_token() {
         return access_token;
+    }
+
+    public String getName() {
+        return name;
     }
 
     // Setters
@@ -13,8 +18,13 @@ public class LoginResponseModel {
         this.access_token = access_token;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     // constructor
-    public LoginResponseModel(String access_token) {
+    public LoginResponseModel(String name, String access_token) {
+        this.name = name;
         this.access_token = access_token;
     }
 
@@ -24,6 +34,6 @@ public class LoginResponseModel {
 
     @Override
     public String toString() {
-        return "LoginResponseModel [access_token=" + access_token + "]";
+        return "LoginResponseModel [name=" + name + "access_token=" + access_token + "]";
     }
 }
