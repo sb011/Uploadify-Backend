@@ -7,6 +7,7 @@ public class FileResponse {
     private String type;
     private int size;
     private String publicId;
+    private String url;
     private LocalDateTime expiresAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -26,6 +27,10 @@ public class FileResponse {
 
     public String getPublicId() {
         return publicId;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public LocalDateTime getExpiresAt() {
@@ -57,6 +62,10 @@ public class FileResponse {
         this.publicId = publicId;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
@@ -70,12 +79,13 @@ public class FileResponse {
     }
 
     // constructor
-    public FileResponse(String id, String type, int size, String publicId, LocalDateTime expiresAt,
+    public FileResponse(String id, String type, int size, String publicId, String url, LocalDateTime expiresAt,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.type = type;
         this.size = size;
         this.publicId = publicId;
+        this.url = url;
         this.expiresAt = expiresAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

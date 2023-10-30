@@ -1,6 +1,8 @@
 package com.smit.Backend.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,5 +25,10 @@ public class FileController {
     @PostMapping("/upload")
     public FileResponse uploadFile(@RequestParam MultipartFile file) {
         return fileService.uploadFile(file);
+    }
+
+    @GetMapping("/{id}")
+    public FileResponse getFile(@PathVariable String id) {
+        return fileService.getFile(id);
     }
 }

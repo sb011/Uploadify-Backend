@@ -56,7 +56,17 @@ public class FileService implements IFileService {
 
         var response = fileRepository.save(fileEntity);
         return new FileResponse(response.getId(), response.getType(),
-                response.getSize(), response.getPublicId(), response.getExpiresAt(), response.getCreatedAt(),
+                response.getSize(), response.getPublicId(), null, response.getExpiresAt(), response.getCreatedAt(),
                 response.getUpdatedAt());
+    }
+
+    public FileResponse getFile(String id) {
+        var file = fileRepository.findByPublicId(id).orElseThrow(() -> new BadRequestException("File not found"));
+        if (file.getExpiresAt() != null && file.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("File has expired");
+        }
+
+        return new FileResponse(file.getId(), file.getType(), file.getSize(), file.getPublicId(), file.getUrl(),
+                file.getExpiresAt(), file.getCreatedAt(), file.getUpdatedAt());
     }
 }
