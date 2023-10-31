@@ -11,6 +11,6 @@
 #
 FROM openjdk:17-alpine
 WORKDIR /app
-COPY --from=build /app/target/*.jar /app/app.jar
+COPY /app/target/Backend-0.0.1-SNAPSHOT.jar /app/app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","app.jar"]
