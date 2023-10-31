@@ -9,4 +9,4 @@ COPY --from=build /app/target/uploadify-backend.jar /app/uploadify-backend.jar
 EXPOSE 8080
 
 # Define the entry point of the application
-ENTRYPOINT ["java", "-jar", "uploadify-backend.jar"]
+RUN mvn spring-boot:run
