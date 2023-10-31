@@ -29,14 +29,13 @@ public class TokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-
         if (token == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized: token not found");
             return;
         }
 
         // verify the token
-        var tokenData = jwtHelper.validateToken(token.substring(7));
+        var tokenData = jwtHelper.validateToken(token);
         if (tokenData == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized User");
             return;
@@ -53,11 +52,14 @@ public class TokenFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
+        if (path.equals("/api/authentication/login") || path.equals("/api/authentication/register")) {
+            return true;
+        }
         if (path.equals("/api/files/") && request.getMethod().equals("GET")) {
             return false;
         } else if (path.startsWith("/api/files") && request.getMethod().equals("GET")) {
             return true;
         }
-        return path.equals("/api/authentication/login") || path.equals("/api/authentication/register");
+        return false;
     }
 }

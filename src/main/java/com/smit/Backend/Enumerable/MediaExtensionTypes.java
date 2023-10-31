@@ -8,4 +8,8 @@ public enum MediaExtensionTypes {
     png,
     gif,
     zip,
+    mkv,
+    mp3,
+    mp4,
+    avi,
 }

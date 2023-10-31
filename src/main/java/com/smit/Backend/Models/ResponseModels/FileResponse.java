@@ -10,6 +10,7 @@ public class FileResponse {
     private String url;
     private String userId;
     private String mediaType;
+    private String fileName;
     private LocalDateTime expiresAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -41,6 +42,10 @@ public class FileResponse {
 
     public String getMediaType() {
         return mediaType;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public LocalDateTime getExpiresAt() {
@@ -84,6 +89,10 @@ public class FileResponse {
         this.mediaType = mediaType;
     }
 
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
     }
@@ -98,6 +107,7 @@ public class FileResponse {
 
     // constructor
     public FileResponse(String id, String type, int size, String publicId, String url, String userId, String mediaType,
+            String fileName,
             LocalDateTime expiresAt,
             LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
@@ -107,6 +117,7 @@ public class FileResponse {
         this.url = url;
         this.userId = userId;
         this.mediaType = mediaType;
+        this.fileName = fileName;
         this.expiresAt = expiresAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -118,8 +129,8 @@ public class FileResponse {
     // toString
     @Override
     public String toString() {
-        return "FileResponse [createdAt=" + createdAt + ", expiresAt=" + expiresAt + ", id=" + id + ", publicId="
-                + publicId + ", size=" + size + ", type=" + type + ", updatedAt=" + updatedAt + ", url=" + url
-                + ", userId=" + userId + ", mediaType=" + mediaType + "]";
+        return "FileResponse [createdAt=" + createdAt + ", expiresAt=" + expiresAt + ", fileName=" + fileName + ", id="
+                + id + ", mediaType=" + mediaType + ", publicId=" + publicId + ", size=" + size + ", type=" + type
+                + ", updatedAt=" + updatedAt + ", url=" + url + ", userId=" + userId + "]";
     }
 }

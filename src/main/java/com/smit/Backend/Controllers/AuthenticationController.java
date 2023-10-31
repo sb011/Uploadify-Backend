@@ -13,8 +13,8 @@ import com.smit.Backend.Models.ResponseModels.LoginResponseModel;
 import com.smit.Backend.Services.Interfaces.IAuthenticationService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/authentication")
+@CrossOrigin
 public class AuthenticationController {
     private final IAuthenticationService authenticationService;
 

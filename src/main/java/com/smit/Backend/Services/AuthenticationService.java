@@ -48,7 +48,7 @@ public class AuthenticationService implements IAuthenticationService {
         // generate the access token
         var accessToken = jwtHelper.generateToken(userDB.getId());
 
-        return new LoginResponseModel(userDB.getName(), accessToken);
+        return new LoginResponseModel(accessToken);
     }
 
     @Override
@@ -77,6 +77,6 @@ public class AuthenticationService implements IAuthenticationService {
 
         // generate the access token
         var accessToken = jwtHelper.generateToken(user.getId());
-        return new LoginResponseModel(user.getName(), accessToken);
+        return new LoginResponseModel(accessToken);
     }
 }

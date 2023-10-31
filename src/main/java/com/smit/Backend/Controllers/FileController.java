@@ -19,8 +19,8 @@ import com.smit.Backend.Models.ResponseModels.FileResponse;
 import com.smit.Backend.Services.Interfaces.IFileService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/files")
+@CrossOrigin
 public class FileController {
     private final IFileService fileService;
     private final JWTHelper jwtHelper;
@@ -33,7 +33,7 @@ public class FileController {
 
     @PostMapping("/upload")
     public FileResponse uploadFile(@RequestParam MultipartFile file, @RequestHeader("Authorization") String token) {
-        var tokenData = jwtHelper.validateToken(token.substring(7));
+        var tokenData = jwtHelper.validateToken(token);
         var userId = tokenData.getClaim("userId").toString();
         userId = userId.substring(1, userId.length() - 1);
         return fileService.uploadFile(file, userId);
@@ -44,9 +44,9 @@ public class FileController {
         return fileService.getFile(publicId);
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<FileResponse> getAllFiles(@RequestHeader("Authorization") String token) {
-        var tokenData = jwtHelper.validateToken(token.substring(7));
+        var tokenData = jwtHelper.validateToken(token);
         var userId = tokenData.getClaim("userId").toString();
         userId = userId.substring(1, userId.length() - 1);
         return fileService.getAllFile(userId);
@@ -54,7 +54,7 @@ public class FileController {
 
     @DeleteMapping("/{id}")
     public void deleteFile(@PathVariable String id, @RequestHeader("Authorization") String token) {
-        var tokenData = jwtHelper.validateToken(token.substring(7));
+        var tokenData = jwtHelper.validateToken(token);
         var userId = tokenData.getClaim("userId").toString();
         userId = userId.substring(1, userId.length() - 1);
         fileService.deleteFile(id, userId);
