@@ -13,7 +13,8 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Define the endpoint you want to enable CORS for
-                        .allowedOrigins("http://localhost") // Allow requests from this origin
+                        .allowedOrigins("https://astounding-pudding-ff6e09.netlify.app/") // Allow requests from this
+                                                                                          // origin
                         .allowedMethods("*") // Allowed HTTP methods
                         .allowCredentials(true); // Allow sending cookies
             }
