@@ -3,6 +3,7 @@ package com.smit.Backend.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.smit.Backend.Models.ResponseModels.FileResponse;
 import com.smit.Backend.Services.Interfaces.IFileService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/files")
 public class FileController {
     private final IFileService fileService;

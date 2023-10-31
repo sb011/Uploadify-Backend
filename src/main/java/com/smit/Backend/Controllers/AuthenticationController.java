@@ -1,6 +1,7 @@
 package com.smit.Backend.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import com.smit.Backend.Models.ResponseModels.LoginResponseModel;
 import com.smit.Backend.Services.Interfaces.IAuthenticationService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/authentication")
 public class AuthenticationController {
     private final IAuthenticationService authenticationService;
