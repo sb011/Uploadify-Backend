@@ -9,6 +9,7 @@
 #
 # Package stage
 #
+FROM ubuntu:16.04
 FROM openjdk:17-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar /app/app.jar
