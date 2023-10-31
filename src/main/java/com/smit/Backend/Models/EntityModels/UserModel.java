@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+/**
+ * User model class.
+ */
 public class UserModel {
     private String id;
     private String name;

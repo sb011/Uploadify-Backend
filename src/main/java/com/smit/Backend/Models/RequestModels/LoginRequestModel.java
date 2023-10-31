@@ -1,5 +1,8 @@
 package com.smit.Backend.Models.RequestModels;
 
+/**
+ * Login request model class.
+ */
 public class LoginRequestModel {
     private String email;
     private String password;
@@ -28,10 +31,10 @@ public class LoginRequestModel {
         this.password = password;
     }
 
-    // default constructor
     public LoginRequestModel() {
     }
 
+    // toString
     @Override
     public String toString() {
         return "LoginRequestModel [email=" + email + ", password=" + password + "]";

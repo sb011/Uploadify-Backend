@@ -1,5 +1,8 @@
 package com.smit.Backend.Models.ResponseModels;
 
+/**
+ * Login response model class.
+ */
 public class LoginResponseModel {
     private String access_token;
 
@@ -18,10 +21,10 @@ public class LoginResponseModel {
         this.access_token = access_token;
     }
 
-    // default constructor
     public LoginResponseModel() {
     }
 
+    // toString
     @Override
     public String toString() {
         return "LoginResponseModel [access_token=" + access_token + "]";

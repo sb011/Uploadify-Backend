@@ -2,6 +2,9 @@ package com.smit.Backend.Models.ResponseModels;
 
 import java.time.LocalDateTime;
 
+/**
+ * File response model class.
+ */
 public class FileResponse {
     private String id;
     private String type;

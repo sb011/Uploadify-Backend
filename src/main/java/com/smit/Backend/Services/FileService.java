@@ -20,18 +20,35 @@ import com.smit.Backend.Models.ResponseModels.FileResponse;
 import com.smit.Backend.Repositories.Interfaces.IFileRepository;
 import com.smit.Backend.Services.Interfaces.IFileService;
 
+/**
+ * File service class.
+ */
 @Service
 public class FileService implements IFileService {
     private final IFileRepository fileRepository;
     private final CloudinaryHelper cloudinaryHelper;
 
+    /**
+     * Constructor.
+     * 
+     * @param fileRepository   file repository
+     * @param cloudinaryHelper cloudinary helper
+     */
     @Autowired
     public FileService(IFileRepository fileRepository, CloudinaryHelper cloudinaryHelper) {
         this.fileRepository = fileRepository;
         this.cloudinaryHelper = cloudinaryHelper;
     }
 
+    /**
+     * This method handles upload requests.
+     * 
+     * @param file   file
+     * @param userId user ID
+     * @return file response
+     */
     public FileResponse uploadFile(MultipartFile file, String userId) {
+        // validate request
         if (file.isEmpty() || file.getSize() == 0 || file.getOriginalFilename() == null) {
             throw new BadRequestException("Uploaded file is empty");
         }
@@ -40,11 +57,13 @@ public class FileService implements IFileService {
             throw new BadRequestException("File type not allowed" + fileExtension);
         }
 
+        // validate file size
         var fileSize = file.getSize();
         if (fileSize > 5 * 1024 * 1024) {
             throw new BadRequestException("File size should not exceed 5MB");
         }
 
+        // upload file to cloudinary
         FileUploadDto media;
         try {
             media = cloudinaryHelper.uploadMedia(file);
@@ -65,8 +84,16 @@ public class FileService implements IFileService {
                 response.getUpdatedAt());
     }
 
+    /**
+     * This method handles get file requests.
+     * 
+     * @param publicId public ID
+     * @return file response
+     */
     public FileResponse getFile(String publicId) {
         var file = fileRepository.findByPublicId(publicId).orElseThrow(() -> new BadRequestException("File not found"));
+
+        // check if file has expired
         if (file.getExpiresAt() != null && file.getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new BadRequestException("File has expired");
         }
@@ -76,6 +103,12 @@ public class FileService implements IFileService {
                 file.getUpdatedAt());
     }
 
+    /**
+     * This method handles get all files requests.
+     * 
+     * @param userId user ID
+     * @return list of file responses
+     */
     public List<FileResponse> getAllFile(String userId) {
         List<FileResponse> files = fileRepository.findByUserId(userId)
                 .stream()
@@ -90,18 +123,26 @@ public class FileService implements IFileService {
         return files;
     }
 
+    /**
+     * This method handles delete file requests.
+     * 
+     * @param id     ID
+     * @param userId user ID
+     */
     public void deleteFile(String id, String userId) {
         var file = fileRepository.findById(id).orElseThrow(() -> new BadRequestException("File not found"));
         if (!file.getUserId().equals(userId)) {
             throw new UnauthorizedException("You are not authorized to delete this file");
         }
 
+        // delete file from cloudinary
         try {
             cloudinaryHelper.deleteFile(file.getPublicId());
         } catch (IOException exception) {
             throw new BadRequestException(exception.getMessage());
         }
 
+        // delete file from database
         fileRepository.deleteById(id);
     }
 }

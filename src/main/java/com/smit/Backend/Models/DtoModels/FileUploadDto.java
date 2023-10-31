@@ -1,5 +1,8 @@
 package com.smit.Backend.Models.DtoModels;
 
+/**
+ * File upload dto class.
+ */
 public class FileUploadDto {
     private String url;
     private String type;

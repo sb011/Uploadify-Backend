@@ -7,23 +7,40 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Backend application class.
+ * 
+ * @SpringBootApplication annotation is equivalent to using @Configuration,
+ * @EnableAutoConfiguration and @ComponentScan with their default attributes.
+ * 
+ * @EnableMongoAuditing annotation enables auditing on Mongo documents.
+ */
 @SpringBootApplication
 @EnableMongoAuditing
 public class BackendApplication {
 
+	/**
+	 * Main method.
+	 * 
+	 * @param args command line arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
+	/**
+	 * This method creates a WebMvcConfigurer object.
+	 * 
+	 * @return WebMvcConfigurer object
+	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				// fornt end url is http://localhost:3000
 				registry.addMapping("/**")
-						.allowedOrigins("*") // Allow requests from any origin
-						.allowedMethods("GET", "POST", "PUT", "DELETE") // Allowed HTTP methods
+						.allowedOrigins("*")
+						.allowedMethods("GET", "POST", "PUT", "DELETE")
 						.allowedHeaders("*");
 			}
 		};

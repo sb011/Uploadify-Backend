@@ -1,19 +1,12 @@
 package com.smit.Backend.Models;
 
+/**
+ * Error response class.
+ */
 public class ErrorResponse {
     private int status;
     private String message;
     private long timeStamp;
-
-    // constructor
-    public ErrorResponse() {
-    }
-
-    public ErrorResponse(int status, String message, long timeStamp) {
-        this.status = status;
-        this.message = message;
-        this.timeStamp = timeStamp;
-    }
 
     // getters
     public int getStatus() {
@@ -38,6 +31,16 @@ public class ErrorResponse {
     }
 
     public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    // constructor
+    public ErrorResponse() {
+    }
+
+    public ErrorResponse(int status, String message, long timeStamp) {
+        this.status = status;
+        this.message = message;
         this.timeStamp = timeStamp;
     }
 }

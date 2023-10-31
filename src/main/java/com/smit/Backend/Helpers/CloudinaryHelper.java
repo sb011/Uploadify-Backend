@@ -13,15 +13,30 @@ import com.cloudinary.utils.ObjectUtils;
 import com.smit.Backend.Execptions.BadRequestException;
 import com.smit.Backend.Models.DtoModels.FileUploadDto;
 
+/**
+ * Cloudinary helper class.
+ */
 @Component
 public class CloudinaryHelper {
     private final Cloudinary cloudinary;
 
+    /**
+     * Constructor.
+     * 
+     * @param cloudinary Cloudinary object
+     */
     @Autowired
     public CloudinaryHelper(Cloudinary cloudinary) {
         this.cloudinary = cloudinary;
     }
 
+    /**
+     * This method uploads a file to cloudinary.
+     * 
+     * @param file file
+     * @return file upload data
+     * @throws IOException
+     */
     public FileUploadDto uploadMedia(MultipartFile file) throws IOException {
         Map<String, String> options = ObjectUtils.asMap(
                 "public_id", UUID.randomUUID().toString(),
@@ -34,12 +49,18 @@ public class CloudinaryHelper {
         return media;
     }
 
+    /**
+     * This method deletes a file from cloudinary.
+     * 
+     * @param publicId public ID
+     * @throws IOException
+     */
     public void deleteFile(String publicId) throws IOException {
         Map deleteResult = cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
 
         if (!"ok".equals(deleteResult.get("result"))) {
             throw new BadRequestException("Error deleting file from cloudinary");
-            
+
         }
     }
 }

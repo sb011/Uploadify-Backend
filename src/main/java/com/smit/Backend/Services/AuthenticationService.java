@@ -14,12 +14,22 @@ import com.smit.Backend.Models.ResponseModels.LoginResponseModel;
 import com.smit.Backend.Repositories.Interfaces.IUserRepository;
 import com.smit.Backend.Services.Interfaces.IAuthenticationService;
 
+/**
+ * Authentication service class.
+ */
 @Service
 public class AuthenticationService implements IAuthenticationService {
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTHelper jwtHelper;
 
+    /**
+     * Constructor.
+     * 
+     * @param userRepository  user repository
+     * @param passwordEncoder password encoder
+     * @param jwtHelper       JWT helper
+     */
     @Autowired
     public AuthenticationService(IUserRepository userRepository,
             PasswordEncoder passwordEncoder, JWTHelper jwtHelper) {
@@ -28,8 +38,15 @@ public class AuthenticationService implements IAuthenticationService {
         this.jwtHelper = jwtHelper;
     }
 
+    /**
+     * This method handles login requests.
+     * 
+     * @param loginRequest login request
+     * @return login response
+     */
     @Override
     public LoginResponseModel login(LoginRequestModel loginRequest) {
+        // validate request
         if (loginRequest.getEmail() == null || loginRequest.getEmail().isBlank())
             throw new BadRequestException("Email cannot be empty.");
 
@@ -42,6 +59,7 @@ public class AuthenticationService implements IAuthenticationService {
         var userDB = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(
                 () -> new BadRequestException("User with email " + loginRequest.getEmail() + " does not exist."));
 
+        // validate password
         if (!passwordEncoder.matches(loginRequest.getPassword(), userDB.getPassword()))
             throw new BadRequestException("Invalid password.");
 
@@ -51,8 +69,15 @@ public class AuthenticationService implements IAuthenticationService {
         return new LoginResponseModel(accessToken);
     }
 
+    /**
+     * This method handles register requests.
+     * 
+     * @param registerRequest register request
+     * @return login response
+     */
     @Override
     public LoginResponseModel register(RegisterRequestModel registerRequest) {
+        // validate request
         if (registerRequest.getName() == null || registerRequest.getName().isBlank())
             throw new BadRequestException("Name cannot be empty.");
 
@@ -69,6 +94,7 @@ public class AuthenticationService implements IAuthenticationService {
         if (isUser.isPresent())
             throw new BadRequestException("User with email " + registerRequest.getEmail() + " already exists.");
 
+        // hash the password
         var hashedPassword = passwordEncoder.encode(registerRequest.getPassword());
 
         var user = new UserModel(registerRequest.getName(), registerRequest.getEmail(),

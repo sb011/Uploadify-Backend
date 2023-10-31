@@ -7,6 +7,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.smit.Backend.Models.EntityModels.FileModel;
 
+/**
+ * File repository interface.
+ * 
+ * extends MongoRepository
+ */
 public interface IFileRepository extends MongoRepository<FileModel, String> {
     Optional<FileModel> findByPublicId(String publicId);
 

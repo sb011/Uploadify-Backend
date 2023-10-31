@@ -1,5 +1,8 @@
 package com.smit.Backend.Models.RequestModels;
 
+/**
+ * Register request model class.
+ */
 public class RegisterRequestModel {
     private String name;
     private String email;
@@ -38,10 +41,10 @@ public class RegisterRequestModel {
         this.password = password;
     }
 
-    // default constructor
     public RegisterRequestModel() {
     }
 
+    // toString
     @Override
     public String toString() {
         return "RegisterRequestModel [email=" + email + ", name=" + name + ", password=" + password + "]";
