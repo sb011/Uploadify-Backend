@@ -1,9 +1,11 @@
-FROM openjdk:18
- 
-WORKDIR /app
- 
-COPY ./target/Backend-0.0.1-SNAPSHOT.jar /app
+FROM maven:3.8.5-openjdk-17 as builder
 
+COPY ./src src/
+COPY ./pom.xml pom.xml
+
+RUN mvn clean package -DskipTests
+
+FROM openjdk:17-jdk-slim
+COPY --from=builder target/Backend-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
- 
-CMD ["java", "-jar", "Backend-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
