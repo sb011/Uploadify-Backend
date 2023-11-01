@@ -1,10 +1,32 @@
 # Uploadify-Backend
-This Spring Boot API allows users to upload files and generate short links for easy sharing. It uses MongoDB as the database to store file information and short links, and JWT for authentication.
+This Spring Boot API allows users to upload files and generate short links for easy sharing. It uses MongoDB as the database to store file information and short links, Cloudinary for file upload and JWT for authentication. 
 
 # Tech stack
 * Spring boot
 * MongoDB
 * JWT
+* Cloudinary
+
+# Setup
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd Backend
+   ```
+2. Configure MongoDB and Cloudinary:
+   ```
+   spring.data.mongodb.uri=<mongodb-host>
+   spring.data.mongodb.database=<mongodb-database>
+   
+   cloudinary.cloud-name=<cloudinary-cloud-name>
+   cloudinary.api-key=<cloudinary-api-key>
+   cloudinary.api-secret=<cloudinary-api-secret>
+   ```
+3. Build and run the application:
+   ```
+   mvn clean install
+   mvn spring-boot:run
+   ```
 
 # End points
 1. POST /api/authentication/register
