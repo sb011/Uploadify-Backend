@@ -37,9 +37,9 @@ public class CloudinaryHelper {
      * @return file upload data
      * @throws IOException
      */
-    public FileUploadDto uploadMedia(MultipartFile file) throws IOException {
+    public FileUploadDto uploadMedia(MultipartFile file, String code) throws IOException {
         Map<String, String> options = ObjectUtils.asMap(
-                "public_id", UUID.randomUUID().toString(),
+                "public_id", code,
                 "resource_type", "auto");
 
         Map uploadResult = cloudinary.uploader().upload(file.getBytes(), options);

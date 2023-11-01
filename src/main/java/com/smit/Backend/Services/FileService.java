@@ -1,9 +1,9 @@
 package com.smit.Backend.Services;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,17 +63,19 @@ public class FileService implements IFileService {
             throw new BadRequestException("File size should not exceed 5MB");
         }
 
+        var code = generateUniqueCode(8);
+
         // upload file to cloudinary
         FileUploadDto media;
         try {
-            media = cloudinaryHelper.uploadMedia(file);
+            media = cloudinaryHelper.uploadMedia(file, code);
         } catch (IOException exception) {
             throw new BadRequestException(exception.getMessage());
         }
 
         var expiresAt = LocalDateTime.now().plusDays(1);
         var fileEntity = new FileModel(media.getUrl(), fileExtension, media.getSize(), media.getPublicId(), userId,
-                file.getContentType(), file.getOriginalFilename(), expiresAt);
+                file.getContentType(), file.getOriginalFilename().split("\\.")[0], expiresAt);
 
         var response = fileRepository.save(fileEntity);
         return new FileResponse(response.getId(), response.getType(),
@@ -144,5 +146,24 @@ public class FileService implements IFileService {
 
         // delete file from database
         fileRepository.deleteById(id);
+    }
+
+    /**
+     * This method generates a unique code.
+     * 
+     * @return unique code
+     */
+    private static String generateUniqueCode(int codeLength) {
+        String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder code = new StringBuilder();
+
+        for (int i = 0; i < codeLength; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            code.append(randomChar);
+        }
+
+        return code.toString();
     }
 }
