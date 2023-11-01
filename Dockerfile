@@ -1,11 +1,9 @@
-FROM eclipse-temurin:17-jdk-focal
+FROM openjdk:18
  
 WORKDIR /app
  
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+COPY ./target/Backend-0.0.1-SNAPSHOT.jar /app
+
+EXPOSE 8080
  
-COPY src ./src
- 
-CMD ["./mvnw", "spring-boot:run"]
+CMD ["java", "-jar", "Backend-0.0.1-SNAPSHOT.jar"]
